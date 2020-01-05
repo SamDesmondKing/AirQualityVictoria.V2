@@ -1,0 +1,81 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\projects\\CSharp\\AirQualityVictoria\\AirQualityVictoria\\AirQualityVictoria.csproj": {}
+  },
+  "projects": {
+    "D:\\projects\\CSharp\\AirQualityVictoria\\AirQualityVictoria\\AirQualityVictoria.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\projects\\CSharp\\AirQualityVictoria\\AirQualityVictoria\\AirQualityVictoria.csproj",
+        "projectName": "AirQualityVictoria",
+        "projectPath": "D:\\projects\\CSharp\\AirQualityVictoria\\AirQualityVictoria\\AirQualityVictoria.csproj",
+        "packagesPath": "C:\\Users\\Samue\\.nuget\\packages\\",
+        "outputPath": "D:\\projects\\CSharp\\AirQualityVictoria\\AirQualityVictoria\\obj\\",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft SDKs\\UWPNuGetPackages\\"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Samue\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "uap10.0.17134"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "uap10.0.17134": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "uap10.0.17134": {
+          "dependencies": {
+            "Microsoft.NETCore.UniversalWindowsPlatform": {
+              "target": "Package",
+              "version": "[6.2.9, )"
+            },
+            "TweetSharp": {
+              "target": "Package",
+              "version": "[2.3.1, )"
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      },
+      "runtimes": {
+        "win10-arm": {
+          "#import": []
+        },
+        "win10-arm-aot": {
+          "#import": []
+        },
+        "win10-arm64-aot": {
+          "#import": []
+        },
+        "win10-x64": {
+          "#import": []
+        },
+        "win10-x64-aot": {
+          "#import": []
+        },
+        "win10-x86": {
+          "#import": []
+        },
+        "win10-x86-aot": {
+          "#import": []
+        }
+      }
+    }
+  }
+}
