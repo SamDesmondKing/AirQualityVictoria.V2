@@ -19,10 +19,8 @@ namespace AirQualityVictoria
 
         public void Run(IBackgroundTaskInstance taskInstance)
         {
-
             while (true)
-            {
-              
+            {           
                 SendTweet("Bot Cycling");
 
                 //Get tweet to send as string 
