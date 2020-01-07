@@ -30,13 +30,13 @@
     <AppXManifest Include="D:\projects\CSharp\AirQualityVictoria\AirQualityVictoria\bin\ARM\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2020-01-07T00:58:24.670</Modified>
+      <Modified>2020-01-07T01:48:19.398</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="D:\projects\CSharp\AirQualityVictoria\AirQualityVictoria\bin\ARM\Debug\AirQualityVictoria.winmd">
       <PackagePath>AirQualityVictoria.winmd</PackagePath>
-      <Modified>2020-01-07T00:58:23.897</Modified>
+      <Modified>2020-01-07T01:48:18.639</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Samue\.nuget\packages\newtonsoft.json\5.0.6\lib\netcore45\Newtonsoft.Json.dll">
       <PackagePath>Newtonsoft.Json.dll</PackagePath>
@@ -102,7 +102,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\projects\CSharp\AirQualityVictoria\AirQualityVictoria\bin\ARM\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2020-01-05T08:16:04.263</Modified>
+      <Modified>2020-01-07T01:05:32.539</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\projects\CSharp\AirQualityVictoria\AirQualityVictoria\bin\ARM\Debug\Core\UWPShim.exe">
       <PackagePath>UWPShim.exe</PackagePath>
