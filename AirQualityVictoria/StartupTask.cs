@@ -10,7 +10,10 @@ namespace AirQualityVictoria
     public sealed class StartupTask : IBackgroundTask
     {
 
+        private string accountToWatch = "EPA_Victoria";
+        private static string[] keywords = new string[] { "#AirQuality", "smoke", "smokey", "air quality" };
         private static string lastTweet = "";
+
         private static string customerKey = "gQFaDYO5a59nf3AGWo6ZCCIaJ";
         private static string customerKeySecret = "bbmjE1aU1fQeyvNUR1MpghhyqaUwzWiNlNG4u6HIAcCdD3pJRY";
         private static string accessToken = "1212970147939381250-7aj2fMVVd5yq5HElbElncVOVJkUVJp";
@@ -19,28 +22,38 @@ namespace AirQualityVictoria
 
         public void Run(IBackgroundTaskInstance taskInstance)
         {
+
             while (true)
-            {           
-                SendTweet("Bot Cycling");
+            {
+                Console.WriteLine("Test");
 
                 //Get tweet to send as string 
-                var tweet = GetTweet("@EPA_Victoria #AirQuality forecast for today:");
+                var tweet = GetTweet(accountToWatch);
 
-                //Check to make sure we're not sending a duplicate tweet
-                if (tweet != lastTweet && tweet[0] != 'R')
+                bool keywordCheck = ContainsAny(tweet, keywords);
+
+                //Duplicate and keyword check
+                if (tweet != lastTweet && keywordCheck == true)
                 {
                     //Send it
                     SendTweet("RT @EPA_Victoria: " + tweet);
                     lastTweet = tweet;
                 }
-                else
-                {
-                    Console.WriteLine("Not Sent: duplicate tweet");
-                }
 
                 //Cycle every thirty minutes
                 Thread.Sleep(1800000);
             }
+        }
+
+        private static bool ContainsAny(string tweet, string[] keywords)
+        {
+            foreach (string keyword in keywords)
+            {
+                if (tweet.Contains(keyword))
+                    return true;
+            }
+
+            return false;
         }
 
         private static void SendTweet(string _status)
@@ -64,9 +77,13 @@ namespace AirQualityVictoria
 
         private static String GetTweet(string target)
         {
-            var tweets_search = service.Search(new SearchOptions { Q = target, Resulttype = TwitterSearchResultType.Recent });
+            var currentTweet = service.ListTweetsOnUserTimeline(new ListTweetsOnUserTimelineOptions
+            {
+                ScreenName = target,
+                Count = 1,
+            });
 
-            return tweets_search.Statuses.First().Text;
+            return currentTweet.First().Text;
         }
     }
 }
