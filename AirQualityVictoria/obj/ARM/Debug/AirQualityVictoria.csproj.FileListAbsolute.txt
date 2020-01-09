@@ -55,3 +55,6 @@ D:\projects\CSharp\AirQualityVictoria\AirQualityVictoria\obj\ARM\Debug\.winmd_ca
 D:\projects\CSharp\AirQualityVictoria\AirQualityVictoria\obj\ARM\Debug\.winmd_cache\$AirQualityVictoria.winmd_637140665419467405.json
 D:\projects\CSharp\AirQualityVictoria\AirQualityVictoria\obj\ARM\Debug\.winmd_cache\$AirQualityVictoria.winmd_637140667227126508.json
 D:\projects\CSharp\AirQualityVictoria\AirQualityVictoria\obj\ARM\Debug\.winmd_cache\$AirQualityVictoria.winmd_637140670691779027.json
+D:\projects\CSharp\AirQualityVictoria\AirQualityVictoria\obj\ARM\Debug\.winmd_cache\$AirQualityVictoria.winmd_637141522728510284.json
+D:\projects\CSharp\AirQualityVictoria\AirQualityVictoria\obj\ARM\Debug\.winmd_cache\$AirQualityVictoria.winmd_637141669864069917.json
+D:\projects\CSharp\AirQualityVictoria\AirQualityVictoria\obj\ARM\Debug\.winmd_cache\$AirQualityVictoria.winmd_637141697115379585.json

@@ -30,13 +30,13 @@
     <AppXManifest Include="D:\projects\CSharp\AirQualityVictoria\AirQualityVictoria\bin\ARM\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2020-01-08T07:57:49.609</Modified>
+      <Modified>2020-01-09T12:28:32.605</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="D:\projects\CSharp\AirQualityVictoria\AirQualityVictoria\bin\ARM\Debug\AirQualityVictoria.winmd">
       <PackagePath>AirQualityVictoria.winmd</PackagePath>
-      <Modified>2020-01-08T07:57:49.177</Modified>
+      <Modified>2020-01-09T12:28:31.537</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Samue\.nuget\packages\newtonsoft.json\5.0.6\lib\netcore45\Newtonsoft.Json.dll">
       <PackagePath>Newtonsoft.Json.dll</PackagePath>

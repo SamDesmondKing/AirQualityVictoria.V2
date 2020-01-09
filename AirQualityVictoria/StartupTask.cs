@@ -1,78 +1,75 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using Windows.ApplicationModel.Background;
 using System.Net;
 using System.Threading;
 using TweetSharp;
+using System.IO;
 
 namespace AirQualityVictoria
 {
     public sealed class StartupTask : IBackgroundTask
     {
 
-        private static string accountToWatch = "EPA_Victoria";
-        private static string[] keywords = new string[] { "#AirQuality", "air quality", "Air quality", "smoke", "Smoke" };
-        private static string[] replyKeywords = new string[] { "Hi", "hi", "Thanks", "thanks", "@" };
-
-        private static string customerKey = "gQFaDYO5a59nf3AGWo6ZCCIaJ";
-        private static string customerKeySecret = "bbmjE1aU1fQeyvNUR1MpghhyqaUwzWiNlNG4u6HIAcCdD3pJRY";
-        private static string accessToken = "1212970147939381250-7aj2fMVVd5yq5HElbElncVOVJkUVJp";
-        private static string accessTokenSecret = "joz6Ruap7aV2URSSp7CvGiD6wCs1aZeiCj1iDr5PHcDrr";
-        private static TwitterService service = new TwitterService(customerKey, customerKeySecret, accessToken, accessTokenSecret);
+        const string accountToWatch = "EPA_Victoria";
+        private static string[] keywords = { "airquality", "air quality", "smoke" };
+        private static string[] replyKeywords = { "hi", "hey", "hello", "thanks", "@" };
         private static string lastTweet = "";
+
+        const string customerKey = "gQFaDYO5a59nf3AGWo6ZCCIaJ";
+        const string customerKeySecret = "bbmjE1aU1fQeyvNUR1MpghhyqaUwzWiNlNG4u6HIAcCdD3pJRY";
+        const string accessToken = "1212970147939381250-7aj2fMVVd5yq5HElbElncVOVJkUVJp";
+        const string accessTokenSecret = "joz6Ruap7aV2URSSp7CvGiD6wCs1aZeiCj1iDr5PHcDrr";
+        private static TwitterService service = new TwitterService(customerKey, customerKeySecret, accessToken, accessTokenSecret);
 
         public void Run(IBackgroundTaskInstance taskInstance)
         {
 
             while (true)
             {
-
                 //Get tweet to send as string 
                 var tweet = GetTweet(accountToWatch);
-
+                
+                //Reply, keyword and duplicate check
                 bool keywordCheck = ContainsAny(tweet, keywords);
                 bool replyCheck = ContainsAny(tweet, replyKeywords);
-
-                //Duplicate and keyword check
-                if (tweet != lastTweet && keywordCheck == true && replyCheck == false)
+                
+                if (tweet != lastTweet && keywordCheck && !replyCheck)
                 {
-                    //Send it
-                    SendTweet("RT @EPA_Victoria: " + tweet);
+                    //Send tweet and log to file. 
+                    SendTweet("RT @EPA_Victoria: " + tweet, true, false);
                     lastTweet = tweet;
-                }
-
-                //Cycle every thirty minutes
-                Thread.Sleep(1800000);
-            }
-        }
-
-        private static bool ContainsAny(string tweet, string[] keywords)
-        {
-            foreach (string keyword in keywords)
-            {
-                if (tweet.Contains(keyword))
-                    return true;
-            }
-
-            return false;
-        }
-
-        private static void SendTweet(string _status)
-        {
-            service.SendTweet(new SendTweetOptions { Status = _status }, (tweet, response) =>
-            {
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    Debug.WriteLine("Tweet sent");
                 }
                 else
                 {
-                    Debug.WriteLine("Tweet failed" + response);
+                    //FormattableString message = $"{tweet} - NOT SENT. KeywordCheck: {keywordCheck} ReplyCheck: {replyCheck}";
+                    //AddLog(message.ToString());
+                }
+
+                //Check every two minutes
+                Thread.Sleep(120000);
+            }
+        }
+
+        //Sends tweet and logs HTTP response to file. 
+        private static void SendTweet(string status, bool keywordCheck, bool replyCheck)
+        {
+            service.SendTweet(new SendTweetOptions { Status = status }, (tweet, response) =>
+            {
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    //FormattableString message = $"{status} - SENT. KeywordCheck: {keywordCheck} ReplyCheck: {replyCheck}";
+                    //AddLog(message.ToString());
+                }
+                else
+                {
+                    //FormattableString message = $"{status} - FAILED. KeywordCheck: {keywordCheck} ReplyCheck: {replyCheck} HTTP response: {response.Error.Message}";
+                    //AddLog(message.ToString());
                 }
             });
         }
 
+        //Gets the latest tweet from our target user
         private static String GetTweet(string target)
         {
             var currentTweet = service.ListTweetsOnUserTimeline(new ListTweetsOnUserTimelineOptions
@@ -82,6 +79,56 @@ namespace AirQualityVictoria
             });
 
             return currentTweet.First().Text;
+        }
+
+        //Logs to text file on Raspi for easy debugging
+        private static void AddLog(string message)
+        {
+            string filepath = @"C:\Data\Users\Administrator\Documents\AQV\" + DateTime.Today.ToString("yy-MM-dd") + "-Log.txt";
+
+            //If log file for today doesn't already exist
+            if (!File.Exists(filepath))
+            {
+                using (StreamWriter sw = File.CreateText(filepath))
+                {
+                    sw.WriteLine(message);
+                }
+                // Clear logs older than a week - should happen daily when new log is created. 
+                ClearOldLogs();
+            }
+            else
+            {
+                using (StreamWriter sw = File.AppendText(filepath))
+                {
+                    sw.WriteLine(message);
+                }
+            }
+        }
+
+        //Clears logs older than one week
+        private static void ClearOldLogs()
+        {
+            string[] files = Directory.GetFiles(@"C:\Data\Users\Administrator\Documents");
+
+            foreach (string file in files)
+            {
+                FileInfo fi = new FileInfo(file);
+                if (fi.LastAccessTime < DateTime.Now.AddDays(-7))
+                {
+                    fi.Delete();
+                }
+            }
+        }
+
+        //Performs keyword check
+        private static bool ContainsAny(string tweet, string[] keywords)
+        {
+            foreach (string keyword in keywords)
+            {
+                if (tweet.ToLower().Contains(keyword.ToLower()))
+                    return true;
+            }
+            return false;
         }
     }
 }
