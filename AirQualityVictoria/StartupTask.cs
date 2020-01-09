@@ -64,15 +64,11 @@ namespace AirQualityVictoria
             {
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine($"<{DateTime.Now}> - Tweet Sent!");
-                    Console.ResetColor();
+                    Debug.WriteLine("Tweet sent");
                 }
                 else
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"<ERROR>" + response.Error.Message);
-                    Console.ResetColor();
+                    Debug.WriteLine("Tweet failed" + response);
                 }
             });
         }
