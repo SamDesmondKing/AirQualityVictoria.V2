@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using Windows.ApplicationModel.Background;
 using System.Net;
@@ -13,14 +14,14 @@ namespace AirQualityVictoria
 
         const string accountToWatch = "EPA_Victoria";
         private static string[] keywords = { "airquality", "air quality", "smoke" };
-        private static string[] replyKeywords = { "hi", "hey", "hello", "thanks", "@" };
+        private static string[] replyKeywords = { "hi ", "hey ", "hello ", "thanks ", "@" };
         private static string lastTweet = "";
 
         const string customerKey = "gQFaDYO5a59nf3AGWo6ZCCIaJ";
         const string customerKeySecret = "bbmjE1aU1fQeyvNUR1MpghhyqaUwzWiNlNG4u6HIAcCdD3pJRY";
         const string accessToken = "1212970147939381250-7aj2fMVVd5yq5HElbElncVOVJkUVJp";
         const string accessTokenSecret = "joz6Ruap7aV2URSSp7CvGiD6wCs1aZeiCj1iDr5PHcDrr";
-        private static TwitterService service = new TwitterService(customerKey, customerKeySecret, accessToken, accessTokenSecret);
+        private static readonly TwitterService service = new TwitterService(customerKey, customerKeySecret, accessToken, accessTokenSecret);
 
         public void Run(IBackgroundTaskInstance taskInstance)
         {
@@ -29,21 +30,22 @@ namespace AirQualityVictoria
             {
                 //Get tweet to send as string 
                 var tweet = GetTweet(accountToWatch);
-                
+
                 //Reply, keyword and duplicate check
-                bool keywordCheck = ContainsAny(tweet, keywords);
-                bool replyCheck = ContainsAny(tweet, replyKeywords);
+                var keywordCheck = ContainsAny(tweet, keywords);
+                var replyCheck = ContainsAny(tweet, replyKeywords);
                 
                 if (tweet != lastTweet && keywordCheck && !replyCheck)
                 {
                     //Send tweet and log to file. 
-                    SendTweet("RT @EPA_Victoria: " + tweet, true, false);
+                    SendTweet("RT @EPA_Victoria: " + tweet);
                     lastTweet = tweet;
                 }
                 else
                 {
-                    //FormattableString message = $"{tweet} - NOT SENT. KeywordCheck: {keywordCheck} ReplyCheck: {replyCheck}";
+                    FormattableString message = $"{tweet} - NOT SENT. KeywordCheck: {keywordCheck} ReplyCheck: {replyCheck} Time: {DateTime.Today}";
                     //AddLog(message.ToString());
+                    Debug.WriteLine(message);
                 }
 
                 //Check every two minutes
@@ -52,19 +54,21 @@ namespace AirQualityVictoria
         }
 
         //Sends tweet and logs HTTP response to file. 
-        private static void SendTweet(string status, bool keywordCheck, bool replyCheck)
+        private static void SendTweet(string status, bool keywordCheck = true, bool replyCheck = false)
         {
             service.SendTweet(new SendTweetOptions { Status = status }, (tweet, response) =>
             {
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    //FormattableString message = $"{status} - SENT. KeywordCheck: {keywordCheck} ReplyCheck: {replyCheck}";
+                    FormattableString message = $"{status} - SENT. KeywordCheck: {keywordCheck} ReplyCheck: {replyCheck} Time: {DateTime.Today}";
                     //AddLog(message.ToString());
+                    Debug.WriteLine(message);
                 }
                 else
                 {
-                    //FormattableString message = $"{status} - FAILED. KeywordCheck: {keywordCheck} ReplyCheck: {replyCheck} HTTP response: {response.Error.Message}";
+                    FormattableString message = $"{status} - FAILED. KeywordCheck: {keywordCheck} ReplyCheck: {replyCheck} HTTP response: {response.Error.Message} Time: {DateTime.Today}";
                     //AddLog(message.ToString());
+                    Debug.WriteLine(message);
                 }
             });
         }
