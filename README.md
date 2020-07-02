@@ -8,4 +8,4 @@ and pollution in Victoria.
 Please note this is a work in progress and may not be up to date at 
 present. 
 
-You can find the bot here: twitter.com/airqualityvic 
+You can find the bot here: https://twitter.com/airqualityvic 
