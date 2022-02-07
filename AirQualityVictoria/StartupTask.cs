@@ -17,10 +17,10 @@ namespace AirQualityVictoria
         private static string[] replyKeywords = { "hi ", "hey ", "hello ", "thanks ", "@" };
         private static string lastTweet = "";
 
-        const string customerKey = "gQFaDYO5a59nf3AGWo6ZCCIaJ";
-        const string customerKeySecret = "bbmjE1aU1fQeyvNUR1MpghhyqaUwzWiNlNG4u6HIAcCdD3pJRY";
-        const string accessToken = "1212970147939381250-7aj2fMVVd5yq5HElbElncVOVJkUVJp";
-        const string accessTokenSecret = "joz6Ruap7aV2URSSp7CvGiD6wCs1aZeiCj1iDr5PHcDrr";
+        const string customerKey = "";
+        const string customerKeySecret = "";
+        const string accessToken = "";
+        const string accessTokenSecret = "";
         private static readonly TwitterService service = new TwitterService(customerKey, customerKeySecret, accessToken, accessTokenSecret);
 
         public void Run(IBackgroundTaskInstance taskInstance)
